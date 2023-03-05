@@ -1,5 +1,6 @@
 package com.example;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -118,6 +119,8 @@ public class Laptop {
         return parameterValue;
     }
 
+
+
     @Override
     public String toString() {
         String laptopInfo = "";
@@ -128,7 +131,7 @@ public class Laptop {
             laptopInfo += this.getParameter(laptopParameters.get("short name"));
             if (!laptopParameters.get("mesure").equals("none")) {
 
-                laptopInfo += " "+laptopParameters.get("mesure");
+                laptopInfo += " " + laptopParameters.get("mesure");
             }
             laptopInfo += " ";
 

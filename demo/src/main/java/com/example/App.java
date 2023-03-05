@@ -2,6 +2,7 @@ package com.example;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -35,12 +36,18 @@ public final class App {
         // filterMap.put("producer", "Dell");
         showLaptopsList(filterLaptops(laptops, filterMap));
         Menu mainMenu = new Menu();
-        mainMenu.addPoint("Настроить фильтр");
-        mainMenu.addPoint("Подобрать ноутбуки по фильтру");
-        mainMenu.addPoint("Показать фильтр");
-        mainMenu.addPoint("Очистить фильтр");
+        fillMainMenu(mainMenu);
         mainMenu.show();
 
+        // System.out.println(mainMenu.readChoice());
+        Menu filterMenu = new Menu();
+        fillFilterMenu(filterMenu);
+        filterMenu.show();
+        Menu filterParameterMenu = new Menu();
+        String parameterName = "ram";
+        fillFilterParameterMenu(filterParameterMenu, laptops,parameterName);
+
+        filterParameterMenu.show();
     }
 
     public static ArrayList<Laptop> filterLaptops(ArrayList<Laptop> laptops, Map<String, String> filterMap) {
@@ -144,4 +151,34 @@ public final class App {
         laptops.add(laptop10);
     }
 
+    static void fillMainMenu(Menu mainMenu) {
+        mainMenu.addPoint("Настроить фильтр");
+        mainMenu.addPoint("Подобрать ноутбуки по фильтру");
+        mainMenu.addPoint("Показать фильтр");
+        mainMenu.addPoint("Очистить фильтр");
+        mainMenu.addPoint("Выход");
+    }
+
+    static void fillFilterMenu(Menu filterMenu) {
+        for (HashMap<String, String> parameterName : Laptop.parametersNames) {
+            String poinString;
+            poinString = String.format("Выбрать параметр \"%s\"", parameterName.get("description"));
+            filterMenu.addPoint(poinString);
+        }
+        filterMenu.addPoint("Выход");
+    }
+
+    static void fillFilterParameterMenu(Menu filterParameterMenu, ArrayList<Laptop> laptops,String parameterName) {
+        HashSet<String> currentParametersValues = new HashSet<>();
+        for (Laptop laptop : laptops) {
+
+            if (laptop.parameters.containsKey(parameterName)) {
+                currentParametersValues.add((laptop.parameters.get(parameterName)));
+            }
+        }
+        for (String parameter : currentParametersValues) {
+            filterParameterMenu.addPoint(parameter);
+        }
+        filterParameterMenu.addPoint("Выход");
+    }
 }
