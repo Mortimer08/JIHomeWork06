@@ -30,24 +30,62 @@ public final class App {
         fillLaptopsList(laptops);
 
         Map<String, String> filterMap = new HashMap<>();
-        filterMap.put("ram", "8");
-        filterMap.put("hdd", "512");
-        filterMap.put("producer", "HP");
-        // filterMap.put("producer", "Dell");
-        showLaptopsList(filterLaptops(laptops, filterMap));
-        Menu mainMenu = new Menu();
+        Menu mainMenu = new Menu("mainMenu");
+        Menu filterMenu = new Menu("filterMenu");
+        Menu filterParameterMenu = new Menu("filterParameterMenu");
         fillMainMenu(mainMenu);
-        mainMenu.show();
-
-        // System.out.println(mainMenu.readChoice());
-        Menu filterMenu = new Menu();
         fillFilterMenu(filterMenu);
-        filterMenu.show();
-        Menu filterParameterMenu = new Menu();
-        String parameterName = "ram";
-        fillFilterParameterMenu(filterParameterMenu, laptops,parameterName);
 
-        filterParameterMenu.show();
+        Boolean exit = false;
+        while (!exit) {
+            mainMenu.show();
+
+            switch (Integer.parseInt(mainMenu.readChoice().get(0))) {
+                case 1:
+
+                    // Boolean exitFilterMenu = false;
+                    while (true) {
+                        filterMenu.show();
+                        ArrayList<String> answers = filterMenu.readChoice();
+                        Integer answer = Integer.parseInt(answers.get(0));
+                        String parameterValue = answers.get(1);
+                        if (parameterValue.equals("Выход")) {
+                            break;
+                        } else {
+                            String parameterName = Laptop.parametersNames.get(answer - 1).get("short name");
+                            fillFilterParameterMenu(filterParameterMenu, laptops, parameterName);
+                            filterParameterMenu.show();
+                            answers = filterParameterMenu.readChoice();
+                            parameterValue = answers.get(1);
+                            if (parameterValue.equals("Выход")) {
+                                break;
+                            } else {
+                                filterMap.put(parameterName, parameterValue);
+                                parameterName = "";
+                                parameterValue = "";
+                                break;
+                            }
+
+                        }
+
+                    }
+                    break;
+                case 2:
+                    showLaptopsList(filterLaptops(laptops, filterMap));
+                    break;
+                case 3:
+                    System.out.println(filterMap);
+                    break;
+                case 4:
+                    filterMap.clear();
+                    break;
+                case 5:
+                    exit = true;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public static ArrayList<Laptop> filterLaptops(ArrayList<Laptop> laptops, Map<String, String> filterMap) {
@@ -168,7 +206,8 @@ public final class App {
         filterMenu.addPoint("Выход");
     }
 
-    static void fillFilterParameterMenu(Menu filterParameterMenu, ArrayList<Laptop> laptops,String parameterName) {
+    static void fillFilterParameterMenu(Menu filterParameterMenu, ArrayList<Laptop> laptops, String parameterName) {
+        filterParameterMenu.clear();
         HashSet<String> currentParametersValues = new HashSet<>();
         for (Laptop laptop : laptops) {
 

@@ -5,8 +5,14 @@ import java.util.Scanner;
 
 public class Menu {
     ArrayList<String> content;
+    String menuName;
+    static Scanner sc;
+    static {
+        sc = new Scanner(System.in);
+    }
 
-    Menu() {
+    Menu(String menuName) {
+        this.menuName = menuName;
         content = new ArrayList<>();
     }
 
@@ -21,30 +27,40 @@ public class Menu {
         }
     }
 
-    String readChoice() {
+    public void clear() {
+        this.content.clear();
+    }
+
+    ArrayList<String> readChoice() {
+        ArrayList<String> answers = new ArrayList<>();
         String answer = "";
-        Integer chosedPoint;
-        Scanner sc = new Scanner(System.in);
+        Boolean check = false;
+        // Scanner sc = new Scanner(System.in);
         Boolean success = false;
         while (!success) {
             System.out.println("Выберите пункт меню: ");
-            answer = sc.nextLine();
+            check = sc.hasNextInt();
+            if (check) {
+                answer = sc.next();
 
-            try {
-                chosedPoint = Integer.parseInt(answer);
-                if (chosedPoint > 0 && chosedPoint <= this.content.size()) {
+                if (Integer.parseInt(answer) > 0 && Integer.parseInt(answer) <= this.content.size()) {
                     success = true;
+                    answers.add(answer);
+
+                    answers.add(this.content.get(Integer.parseInt(answer) - 1));
+                    if(this.menuName.equals("mainMenu")&&this.content.get(Integer.parseInt(answer) - 1).equals("Выход")){
+                        // sc.close();
+                    }
+                } else {
+                    System.out.println("Недопустимая команда");
+                    this.show();
                 }
-                System.out.println("Недопустимая команда");
-                this.show();
-            } catch (Exception e) {
+            } else {
                 System.out.println("Недопустимая команда");
                 this.show();
             }
         }
-
-        sc.close();
-        return answer;
-
+        // sc.close();
+        return answers;
     }
 }

@@ -66,11 +66,6 @@ public class Laptop {
         }
     }
 
-    // public static HashSet<String> getParameterList() {
-    // return Laptop.parametersNames;
-
-    // }
-
     Boolean isFiltered(Map<String, String> filterMap) {
         Boolean filterResult = true;
         for (Map.Entry<String, String> filter : filterMap.entrySet()) {
@@ -133,7 +128,7 @@ public class Laptop {
 
                 laptopInfo += " " + laptopParameters.get("mesure");
             }
-            laptopInfo += " ";
+            laptopInfo += "\t";
 
         }
 
