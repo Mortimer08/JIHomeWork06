@@ -17,14 +17,15 @@ public class Menu {
     }
 
     void addPoint(String menuPoint) {
-
         this.content.add(menuPoint);
     }
 
     void show() {
+        System.out.println();
         for (int index = 0; index < this.content.size(); index++) {
-            System.out.printf("%d. %s\n", index + 1, this.content.get(index));
+            System.out.printf("\t%d. %s\n", index + 1, this.content.get(index));
         }
+        System.out.println();
     }
 
     public void clear() {
@@ -35,10 +36,9 @@ public class Menu {
         ArrayList<String> answers = new ArrayList<>();
         String answer = "";
         Boolean check = false;
-        // Scanner sc = new Scanner(System.in);
         Boolean success = false;
         while (!success) {
-            System.out.println("Выберите пункт меню: ");
+            System.out.print("Выберите пункт меню: ");
             check = sc.hasNextInt();
             if (check) {
                 answer = sc.next();
@@ -49,7 +49,7 @@ public class Menu {
 
                     answers.add(this.content.get(Integer.parseInt(answer) - 1));
                     if(this.menuName.equals("mainMenu")&&this.content.get(Integer.parseInt(answer) - 1).equals("Выход")){
-                        // sc.close();
+                        sc.close();
                     }
                 } else {
                     System.out.println("Недопустимая команда");
@@ -60,7 +60,6 @@ public class Menu {
                 this.show();
             }
         }
-        // sc.close();
         return answers;
     }
 }

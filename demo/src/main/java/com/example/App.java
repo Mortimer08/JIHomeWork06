@@ -42,8 +42,6 @@ public final class App {
 
             switch (Integer.parseInt(mainMenu.readChoice().get(0))) {
                 case 1:
-
-                    // Boolean exitFilterMenu = false;
                     while (true) {
                         filterMenu.show();
                         ArrayList<String> answers = filterMenu.readChoice();
@@ -74,10 +72,21 @@ public final class App {
                     showLaptopsList(filterLaptops(laptops, filterMap));
                     break;
                 case 3:
-                    System.out.println(filterMap);
+                    System.out.println();
+                    System.out.println("Настройки фильтра:");
+                    for (Map.Entry<String, String> filterEntry : filterMap.entrySet()) {
+                        for (HashMap<String, String> parameter : Laptop.parametersNames) {
+                            if (parameter.values().contains(filterEntry.getKey())) {
+                                System.out.printf("%s: %s\t", parameter.get("description"), filterEntry.getValue());
+                            }
+                        }
+                        System.out.println();
+                    }
+                    // System.out.println();
                     break;
                 case 4:
                     filterMap.clear();
+                    System.out.println("Фильтр очищен");
                     break;
                 case 5:
                     exit = true;
@@ -99,6 +108,7 @@ public final class App {
     }
 
     public static void showLaptopsList(ArrayList<Laptop> laptopsList) {
+        System.out.println();
         for (Laptop laptop : laptopsList) {
             System.out.println(laptop.toString());
         }
